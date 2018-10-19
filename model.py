@@ -258,12 +258,12 @@ class Net(nn.Module):
             x = F.leaky_relu(self.fc1(x), 0.1)
 
         elif self.model == 10:
-            x = F.leaky_relu(self.down1(x), 0.2)
-            x = F.leaky_relu(self.down2(x), 0.2)
-            x = F.leaky_relu(self.down3(x), 0.2)
-            x = F.leaky_relu(self.down4(x), 0.2)
-            x = F.leaky_relu(self.up1(x), 0.2)
-            x = F.leaky_relu(self.up2(x), 0.2)
+            x = F.leaky_relu(self.down1(x), 0.25)
+            x = F.leaky_relu(self.down2(x), 0.25)
+            x = F.leaky_relu(self.down3(x), 0.25)
+            x = F.leaky_relu(self.down4(x), 0.25)
+            x = F.leaky_relu(self.up1(x), 0.25)
+            x = F.leaky_relu(self.up2(x), 0.25)
             x = x.view(x.shape[0], -1)
             x = F.leaky_relu(self.fc1(x), 0.1)
 
