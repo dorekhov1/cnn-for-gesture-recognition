@@ -108,8 +108,8 @@ def main():
             total_train_loss += loss.item()
 
         # if epoch % 10 == 1:
-#        learning_rate = 0.95 * learning_rate
-#        optimizer = choose_optimizer(optim)(net.parameters(), lr=learning_rate)
+        learning_rate = 0.95 * learning_rate
+        optimizer = choose_optimizer(optim)(net.parameters(), lr=learning_rate)
 
         train_err[epoch] = float(total_train_err) / len(train_loader.dataset)
         train_loss[epoch] = float(total_train_loss) / len(train_loader.dataset)

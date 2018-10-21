@@ -6,10 +6,8 @@ import torch.utils.data as data
 import numpy as np
 
 
-def noisy(features, eps=1e-2):
-    noise = np.random.normal(scale=eps, size=features.shape)
-    noisy_features = features + noise
-    return noisy_features
+def generate_noisy_data(X, eps=1e-2):
+    return np.random.normal(scale=eps, size=X.shape) + X
 
 
 class GestureDataset(data.Dataset):
@@ -20,7 +18,7 @@ class GestureDataset(data.Dataset):
 
         if add_noise:
             while noisy_samples > 0:
-                noisy_features = noisy(X, eps=noise_eps)
+                noisy_features = generate_noisy_data(X, eps=noise_eps)
 
                 self.X.append(noisy_features)
                 self.y.append(y)

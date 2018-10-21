@@ -2,7 +2,6 @@
     Write a model for gesture classification.
 '''
 
-from unet_parts import *
 import torch as torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -46,7 +45,6 @@ class Net(nn.Module):
             self.activation = nn.LeakyReLU(0.1)
             self.sigmoid = nn.Sigmoid()
 
-            # Fully connected layers
             self.fc1 = torch.nn.Linear(150, 50)
             self.fc2 = torch.nn.Linear(50, 26)
 
@@ -79,18 +77,6 @@ class Net(nn.Module):
             self.conv4 = torch.nn.Conv1d(128, 64, kernel_size=3, stride=1, padding=1)
             self.fc1 = torch.nn.Linear(1600, 128)
             self.fc2 = torch.nn.Linear(128, 26)
-
-        elif model == 6:
-            self.inc = inconv(channels, 64)
-            self.down1 = down(64, 128)
-            self.down2 = down(128, 256)
-            self.down3 = down(256, 512)
-            self.down4 = down(512, 512)
-            self.up1 = up(1024, 256)
-            self.up2 = up(512, 128)
-            self.up3 = up(256, 64)
-            self.up4 = up(128, 64)
-            self.outc = outconv(64, 26)
 
         elif model == 7:
             self.down1 = torch.nn.Conv1d(channels, 32, kernel_size=3, stride=1, padding=1)
@@ -226,18 +212,6 @@ class Net(nn.Module):
             x = F.tanh(self.fc1(x))
             x = self.fc2(x)
 
-        elif self.model == 6:
-            x1 = self.inc(x)
-            x2 = self.down1(x1)
-            x3 = self.down2(x2)
-            x4 = self.down3(x3)
-            x5 = self.down4(x4)
-            x = self.up1(x5, x4)
-            x = self.up2(x, x3)
-            x = self.up3(x, x2)
-            x = self.up4(x, x1)
-            x = self.outc(x)
-
         elif self.model == 7:
             x = F.leaky_relu(self.down1(x))
             x = F.leaky_relu(self.down2(x))
@@ -291,7 +265,6 @@ class Net(nn.Module):
             x = F.leaky_relu(self.up3(x), 0.2)
             x = x.view(x.shape[0], -1)
             x = F.leaky_relu(self.fc1(x), 0.1)
-            # x = F.dropout(x, 0.3)
             x = F.leaky_relu(self.fc2(x), 0.1)
 
         return x
